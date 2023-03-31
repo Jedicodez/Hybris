@@ -1,0 +1,26 @@
+$contentCatalog=myShoeStoreContentCatalog
+$contentCatalogName=myShoeStore Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+$productCatalog=myShoeStoreProductCatalog
+$productCatalogName=myShoeStore Product Catalog
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+$picture=media(code, $contentCV) ;
+$image=image(code, $contentCV) ;
+$media=media(code, $contentCV) ;
+$page=page(uid, $contentCV) ;
+$contentPage=contentPage(uid, $contentCV) ;
+$product=product(code, $productCV)
+$category=category(code, $productCV)
+$siteResource=jar:my.myshoestore.initialdata.constants.MyshoestoreInitialDataConstants&/myshoestoreinitialdata/import/sampledata/contentCatalogs/myshoestorecontentCatalog
+$productResource=jar:my.myshoestore.initialdata.constants.MyshoestoreInitialDataConstants&/myshoestoreinitialdata/import/sampledata/productCatalogs/myshoestoreproductCatalog
+
+$jarResourceCms=jar:my.myshoestore.initialdata.constants.MyshoestoreInitialDataConstants&/myshoestoreinitialdata/import/sampledata/cockpits/cmscockpit 
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved']
+;;premiumCustomerDetails;new products page;ProductListPageTemplate;premiumCustomer;;
+
+INSERT_UPDATE PremiumCustomer;royaltyPoints[unique=true];specialDiscount;freeDelivery;freeGifts;buyonEMI;
+;1233;1;24;22;33;
+;1235;1;24;22;33;
+;1236;3;12;12;6;
+;1237;12;312;1;6;
+;1238;6;3;80;12;

@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testclasses><occcore><testclass>my.sonata.occcore.jalo.OcccoreTest</testclass><testclass>my.sonata.occcore.service.impl.DefaultOcccoreServiceIntegrationTest</testclass></occcore></testclasses>

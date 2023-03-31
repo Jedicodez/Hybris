@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testclasses><myCronJob><testclass>my.sonata.myCronJob.service.impl.DefaultMyCronJobServiceIntegrationTest</testclass><testclass>my.sonata.myCronJob.jalo.MyCronJobTest</testclass></myCronJob></testclasses>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <collectiontypes>
+        <collectiontype code="GenderList" elementtype="Gender" autocreate="true" generate="true" type="list"/>
+        <collectiontype code="SwatchColorSet" elementtype="SwatchColorEnum" autocreate="true" generate="true"
+                        type="set"/>
+        <collectiontype code="CustomBannerLinksList" elementtype="CMSLinkComponent" autocreate="true" generate="true" type="list" />
+
+    </collectiontypes>
+
+    <enumtypes>
+        <enumtype generate="true" code="SwatchColorEnum" autocreate="true" dynamic="true">
+            <value code="BLACK"/>
+            <value code="BLUE"/>
+            <value code="BROWN"/>
+            <value code="GREEN"/>
+            <value code="GREY"/>
+            <value code="ORANGE"/>
+            <value code="PINK"/>
+            <value code="PURPLE"/>
+            <value code="RED"/>
+            <value code="SILVER"/>
+            <value code="WHITE"/>
+            <value code="YELLOW"/>
+        </enumtype>
+    </enumtypes>
+
+    <itemtypes>
+
+        <!-- Add your item definitions here -->
+        <itemtype code="Customer"
+                  autocreate="false" generate="false">
+            <attributes>
+                <attribute qualifier="LoyaltyPoints" type="localized:java.lang.Integer">
+                    <description>Loyalty Points of User</description>
+                    <modifiers optional="true"/>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+
+        </itemtype>
+
+        <!--new item type added-->
+
+        <itemtype code="PremiumCustomer" autocreate="true" generate="true">
+            <deployment table="PremiumCustomer" typecode="13114"/>
+            <attributes>
+                <attribute qualifier="royaltyPoints" type="java.lang.Integer" autocreate="true" generate="true">
+                    <description>Loyalty points of users</description>
+                    <modifiers read="true" unique="true" write="true"/>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="specialDiscount" type="java.lang.Integer" autocreate="true" generate="true">
+                    <description>Special Discount for users</description>
+                    <modifiers read="true" search="true" write="true"/>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="freeDelivery" type="java.lang.Integer" autocreate="true" generate="true">
+                    <description>Free Delivery for users</description>
+                    <modifiers read="true" search="true" write="true"/>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="freeGifts" type="java.lang.Integer" autocreate="true" generate="true">
+                    <description>Free gifts for users</description>
+                    <modifiers read="true" search="true" write="true"/>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="buyOnEMI" type="java.lang.Integer" autocreate="true" generate="true">
+                    <description>EMI system for users</description>
+                    <modifiers read="true" search="true" write="true"/>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+        <!--        Dynamic Attribute -->
+
+        <itemtype code="PremiumCustomer" autocreate="false" generate="false">
+            <attributes>
+                <attribute type="java.lang.Integer" qualifier="totalEMI">
+                    <persistence type="dynamic" attributeHandler="dynamicEMIHandler"></persistence>
+                    <modifiers read="true" write="true" optional="true"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <!--    CRUD Operations        -->
+
+        <itemtype code="Cookies" autocreate="true" generate="true"
+                  jaloclass="de.hybris.myshoestore.core.jalo.Cookies">
+            <deployment table="Cookies" typecode="10302"/>
+            <attributes>
+                <attribute qualifier="pkgId" type="java.lang.Integer">
+                    <modifiers unique="true"/>
+                    <description>This is the Unique ID</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="name" type="java.lang.String">
+                    <description>Name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="MRP" type="java.lang.Integer">
+                    <description>Total Cost</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="mfgBy" type="java.lang.String">
+                    <description>Manufactured by</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <!--    prac    -->
+
+        <itemtype code="Gadget" jaloclass="de.hybris.myshoestorecore.jalo.Gadget">
+            <deployment table="Gadget" typecode="10301"/>
+            <attributes>
+                <attribute qualifier="code" type="java.lang.String">
+                    <modifiers unique="true"/>
+                    <description>This is the Unique code</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="name" type="java.lang.String">
+                    <description>Name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="java.lang.String">
+                    <description>Description.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="java.lang.Boolean">
+                    <description>True-Available False-Unavailable</description>
+                    <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="GadgetIdx" unique="true">
+                    <key attribute="code"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <!-- TypeGroups are for structure of this file only -->
+
+        <typegroup name="Apparel">
+            <itemtype code="ApparelProduct" extends="Product"
+                      autocreate="true" generate="true"
+                      jaloclass="de.hybris.myshoestore.core.jalo.ApparelProduct">
+                <description>Base apparel product extension that contains additional attributes.</description>
+                <attributes>
+                    <attribute qualifier="genders" type="GenderList">
+                        <description>List of genders that the ApparelProduct is designed for</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="ApparelStyleVariantProduct" extends="VariantProduct"
+                      autocreate="true" generate="true"
+                      jaloclass="de.hybris.myshoestore.core.jalo.ApparelStyleVariantProduct">
+                <description>Apparel style variant type that contains additional attribute describing variant style.
+                </description>
+                <attributes>
+                    <attribute qualifier="style" type="localized:java.lang.String"
+                               metatype="VariantAttributeDescriptor">
+                        <description>Color/Pattern of the product.</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+
+                    <attribute qualifier="swatchColors" type="SwatchColorSet">
+                        <description>A normalized color mapping to a standardized front-end navigable name.
+                        </description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+
+            </itemtype>
+
+            <itemtype code="ApparelSizeVariantProduct" extends="ApparelStyleVariantProduct"
+                      autocreate="true" generate="true"
+                      jaloclass="de.hybris.myshoestore.core.jalo.ApparelSizeVariantProduct">
+                <description>Apparel size variant type that contains additional attribute describing variant size.
+                </description>
+                <attributes>
+                    <attribute qualifier="size" type="localized:java.lang.String"
+                               metatype="VariantAttributeDescriptor">
+                        <description>Size of the product.</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+
+        <typegroup name="Electronics">
+            <itemtype code="ElectronicsColorVariantProduct" extends="VariantProduct"
+                      autocreate="true" generate="true"
+                      jaloclass="de.hybris.myshoestore.core.jalo.ElectronicsColorVariantProduct">
+                <description>Electronics color variant type that contains additional attribute describing variant color.
+                </description>
+                <attributes>
+                    <attribute qualifier="color" type="localized:java.lang.String"
+                               metatype="VariantAttributeDescriptor">
+                        <description>Color of the product.</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+
+            </itemtype>
+        </typegroup>
+
+        <!--   attribute for solr   -->
+        <typegroup>
+            <itemtype code="Product" autocreate="false" generate="false">
+
+                <attributes>
+                    <attribute qualifier="colour" type="java.lang.String">
+                        <description>Size of the Product</description>
+                        <persistence type="property"/>
+                        <modifiers read="true" write="true" search="true"
+                                   optional="true" unique="false"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+<!--            CustomCMS   -->
+
+            <itemtype code="CustomBannersComponent" extends="SimpleCMSComponent" generate="true" autocreate="true"
+                      jaloclass="de.hybris.myshoestore.core.jalo.CustomBannersComponent">
+                <description>Used to display Banner on homepage</description>
+                <attributes>
+                    <attribute qualifier="headrerText" type="localized:java.lang.String" >
+                        <modifiers read="true" write="true" optional="false" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="footerText" type="localized:java.lang.String" >
+                        <modifiers read="true" write="true" optional="false" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="bannerImage" type="Media" >
+                        <modifiers read="true" write="true" optional="false" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="offerImageLink" type="CustomBannerLinksList" >
+                        <persistence type="property" />
+                        <description>List of CMS Link Component</description>
+                        <modifiers read="true" write="true" />
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+    </itemtypes>
+</items>

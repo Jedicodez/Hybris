@@ -1,0 +1,5 @@
+INSERT_UPDATE servicelayerJob;code[unique=true];springId
+;HelloWorldCronJob;myJobPerformable
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);sessionLanguage(isocode);
+;HelloWorldCronJob;MyJobPerformable;en

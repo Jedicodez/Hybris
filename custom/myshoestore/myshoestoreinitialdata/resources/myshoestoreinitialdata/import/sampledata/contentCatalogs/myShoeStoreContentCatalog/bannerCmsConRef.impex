@@ -1,0 +1,41 @@
+$contentCatalog=myShoeStoreContentCatalog
+$contentCatalogName=myShoeStore Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$productCatalog=myShoeStoreProductCatalog
+$productCatalogName=myShoeStore Product Catalog
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$picture=media(code, $contentCV)                   ;
+$image=image(code, $contentCV)                     ;
+$media=media(code, $contentCV)                     ;
+$page=page(uid, $contentCV)                        ;
+$contentPage=contentPage(uid, $contentCV)          ;
+$lang=en
+$product=product(code, $productCV)
+$category=category(code, $productCV)
+$siteResource=jar:my.myshoestore.initialdata.constants.MyshoestoreInitialDataConstants&/myshoestoreinitialdata/import/sampledata/contentCatalogs/$contentCatalog
+
+ 
+# CustomBannerComponent CMS links
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;&componentRef;target(code)[default='sameWindow'];$category;
+;;MenshoesBannerLink;Men shoes Banner Link;/MenshoesBannerLink;MenshoesBannerLink;MenshoesBannerLink;;;;
+;;WomenshoesBannerLink;Women shoes Banner Link;/WomenshoesBannerLink;WomenshoesBannerLink;WomenshoesBannerLink;;;;
+;;KidsshoesBannerLink;Kids shoes Banner Link;/KidsshoesBannerLink;KidsshoesBannerLink;KidsshoesBannerLink;;;;
+
+# CustomBannerComponent Medias
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];&imageRef;folder(qualifier)[default='images'];altText
+;;customBannerMedia;$siteResource/images/banners/homepage/banners.jpeg;;banners.jpeg;;;                                                                                                                                                                                                ; image/png                                                                                                                                                                       ; My Shoe Store                            ;
+
+# CustomBannerComponent Content slots
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='LandingPage2Template'];validComponentTypes(code);compTypeGroup(code)
+;SummerBannerSlotName;;CustomBannersComponent
+
+# CustomBannerComponent 
+INSERT_UPDATE CustomBannersComponent;$contentCV[unique=true];uid[unique=true];name;headrerText[lang=$lang];footerText[lang=$lang];bannerImage(code);&componentRef;offerImageLink(&linkRef);
+;;summerBannerComponent;Summer Banner Component;"upto 70 % off";"Grab this offer on all summer<br>Collections";customBannerMedia;summerBannerComponent;MenshoesBannerLink,WomenshoesBannerLink,KidsshoesBannerLink
+
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;summerBannerContentSlot;Summer banner slot;true;summerBannerComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='homepage'];contentSlot(uid,$contentCV)[unique=true]
+;;summerBannerSlotforpage-Homepage;SummerBannerSlotName;;summerBannerContentSlot
